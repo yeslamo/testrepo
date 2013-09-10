@@ -1,0 +1,39 @@
+<style>
+#ipad{
+	width: 100%;
+	height: 100%;
+	background: #EEE;
+	border: 1px solid #ECA9A9;
+}
+</style>
+<script src="http://192.168.1.9:8080/socket.io/socket.io.js"></script>
+<script src="quo.js"></script>
+<script>
+  var socket = io.connect('http://192.168.1.9:8080');
+  socket.on('news', function (data) {
+    console.log(data);
+    socket.emit('my other event', { my: 'data' });
+  });
+</script>
+<div id="ipad"></div>
+
+<script>
+
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+
+$$('#ipad').html('ipad');
+
+$$('#ipad').pinchOut(function(e) {
+    // affects "span" children/grandchildren
+     socket.emit('my other event', { my: 'out' });
+     $$('#ipad').html(e);
+});
+
+$$('#ipad').pinching(function(e) {
+    // affects "span" children/grandchildren
+     socket.emit('my other event', { my: 'ing' });
+});
+
+
+
+</script>
